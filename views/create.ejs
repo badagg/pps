@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+	body{ text-align: right;}
+	</style>
+</head>
+<body>
+	<h1>UED项目预览系统 -- PPS</h1>
+	<p><label>Project Name: <input type="text" id="J_pn" onkeyup="value=value.replace(/[^\a-\z\A-\Z]/g,'')" onpaste="value=value.replace(/[^\a-\z\A-\Z]/g,'')" oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z]/g,'')" maxlength="20" placeholder="输入项目名称" /></label></p>
+	<p><label>PD: <select id="J_pd"><option value="0">请选择PD</option></select></label></p>
+	<p><label>ID: <select id="J_id"><option value="0">请选择交互</option></select></label></p>
+	<p><label>UI: <select id="J_ui"><option value="0">请选择UI</option></select></label></p>
+	<p><label>FED: <select id="J_fed"><option value="0">请选择前端</option></select></label></p>
+	<p><button class="btn">Submit...</button></p>
+</body>
+</html>
+<script type="text/javascript" src="javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="javascripts/create.js"></script>

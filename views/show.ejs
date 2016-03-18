@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><%= data['projectName']%></title>
+	<link rel="stylesheet" href="/stylesheets/base.css" />
+	<link rel="stylesheet" href="/stylesheets/show.css" />
+</head>
+<body>
+	<div class="content">
+		<div class="con-left">
+			<div class="logo">
+				<h2><a href="/all">PPS</a> <span>UED项目预览系统</span></h2>
+			</div>
+			<div class="involved">
+				<h3 class="title">项目对应负责人</h3>
+				<ul>
+					<li><i class="iconfont">&#xe600;</i> 产品：<span><%=data['involved'][0].pd %></span></li>
+					<li><i class="iconfont">&#xe602;</i> 交互：<span><%=data['involved'][0].uid %></span></li>
+					<li><i class="iconfont">&#xe603;</i> 设计：<span><%=data['involved'][0].ui %></span></li>
+					<li><i class="iconfont">&#xe601;</i> 前端：<span><%=data['involved'][0].fed %></span></li>
+				</ul>
+			</div>
+			<div class="path">
+				<h3 class="title">共享盘路径</h3>
+				<div class="links clear">
+					<div class="name fl">PC</div>
+					<div class="link fl">
+						<input type="text" id="linkpc" value="\\<%=data['host']%>\pps\<%= data['projectName'] %>">
+					</div>
+					<div class="name copy fl" data-clipboard-target="#linkpc"><i class="iconfont">&#xe604;</i></div>
+				</div>
+				<div class="links clear">
+					<div class="name fl">MAC</div>
+					<div class="link fl">
+						<input type="text" id="linkmac" value="smb://<%=data['host']%>/pps/<%= data['projectName'] %>">
+					</div>
+					<div class="name copy fl" data-clipboard-target="#linkmac"><i class="iconfont">&#xe604;</i></div>
+				</div>
+				<div class="links clear">
+					<div class="name fl">SVN</div>
+					<div class="link fl">
+						<input type="text" id="linksvn" value="http://svn.yihaodian.com/svn/source/yihaodian/page/pps/<%= data['projectName'] %>/fed">
+					</div>
+					<div class="name copy fl" data-clipboard-target="#linksvn"><i class="iconfont">&#xe604;</i></div>
+				</div>
+			</div>
+			<div class="create-time">
+				<div class="time">项目创建于：<%=data['involved'][0].time %></div>
+			</div>
+		</div>
+		<div class="con-right">
+			<div class="wrap-con">
+				<!-- 项目首页显示内容 -->
+				<% if(data['isMulti']){ %>
+				<div class="tabs">
+					<ul>
+						<% for(var i=0;i<data["tabs"].length;i++){ %>
+						<li>
+							<a href="<%=data['projectName']+"/"+data["tabs"][i]%>"><%=data["tabs"][i]%></a>
+						</li>
+						<% } %>
+					</ul>
+				</div>
+				<% } %>
+				<!-- 进入该项目各组分支显示内容 -->
+				<% if(!data['isMulti']){ %>
+				<% 
+					var file = [];
+					var folder = [];
+					var htmlFile = [];
+					var imgFile = [];
+					var linkUrl = "//"+data['origin']+"/"+data['projectPath']+"/";
+					var linkUrl2 = "//"+data['origin']+"/project/"+data['projectPath']+"/";
+					for(var i=0;i<data["filenames"].length;i++){ 
+						var value = data["filenames"][i];
+						if(value.indexOf(".") == -1){
+							folder.push(value);
+						}else{
+							var suf = value.split(".")[1];
+							if(suf == "html"){
+								htmlFile.push(value);
+							}else if(suf == "gif" || suf == "jpg" || suf == "png"){
+								imgFile.push(value);
+							}else{
+								file.push(value);
+							}
+						}
+					}
+				%>
+				<div class="files-con">
+					<!-- 文件夹 -->
+					<% if(folder.length > 0){ %>
+					<ul class="folder clear">
+						<h3 class="class-title"><i class="iconfont">&#xe614;</i>文件夹</h3>
+						<% for(var i=0;i<folder.length;i++) { %>
+							<li>
+								<i class="iconfont">&#xe616;</i>
+								<a href='<%= linkUrl2 + folder[i]%>'><%= folder[i] %></a>
+							</li>
+						<% } %>
+					</ul>
+					<% } %>
+					<!-- HTML页面 -->
+					<% if(htmlFile.length > 0){ %>
+					<ul class="html-file clear">
+						<h3 class="class-title"><i class="iconfont">&#xe613;</i>HTML页面</h3>
+						<% for(var i=0;i<htmlFile.length;i++) { %>
+							<li>
+								<a href="<%= linkUrl + htmlFile[i] %>" target="_blank">
+									<p><i class="iconfont">&#xe60d;</i></p>
+									<%= htmlFile[i] %>
+									<div class="orcode" data-url="http:<%= linkUrl + htmlFile[i] %>"></div>
+								</a>
+							</li>
+						<%}%>
+					</ul>
+					<% } %>
+					<!-- 其他文件 -->
+					<% if(file.length > 0){ %>
+					<ul class="other-file clear">
+						<h3 class="class-title"><i class="iconfont">&#xe611;</i>其他文件</h3>
+						<% for(var i=0;i<file.length;i++) {
+							var suf = file[i].split(".")[1];
+						%>
+							<% if(suf == "txt" || suf=="rtf" || suf=="xml" || suf=="json"){ %>
+								<li class="suffix-txt">
+									<a href="<%= linkUrl + file[i] %>" target="_blank">
+										<p><i class="iconfont">&#xe608;</i></p>
+										<%= file[i] %>
+									</a>
+								</li>
+							<%} else if(suf == "js"){ %>
+								<li class="suffix-js">
+									<a href="<%= linkUrl + file[i] %>" target="_blank">
+										<p><i class="iconfont">&#xe60e;</i></p>
+										<%= file[i] %>
+									</a>
+								</li>
+							<%} else if(suf == "doc" || suf == "docx"){ %>
+								<li class="suffix-word">
+									<a href="<%= linkUrl + file[i] %>" target="_blank">
+										<p><i class="iconfont">&#xe60c;</i></p>
+										<%= file[i] %>
+									</a>
+								</li>
+							<%} else if(suf == "ppt"){ %>
+								<li class="suffix-ppt">
+									<a href="<%= linkUrl + file[i] %>" target="_blank">
+										<p><i class="iconfont">&#xe605;</i></p>
+										<%= file[i] %>
+									</a>
+								</li>
+							<%} else if(suf == "pdf"){ %>
+								<li class="suffix-pdf">
+									<a href="<%= linkUrl + file[i] %>" target="_blank">
+										<p><i class="iconfont">&#xe609;</i></p>
+										<%= file[i] %>
+									</a>
+								</li>
+							<%} else if(suf == "psd"){ %>
+								<li class="suffix-pdf">
+									<a href="<%= linkUrl + file[i] %>" target="_blank">
+										<p><i class="iconfont">&#xe607;</i></p>
+										<%= file[i] %>
+									</a>
+								</li>
+							<%} else if(suf == "css"){ %>
+								<li class="suffix-css">
+									<a href="<%= linkUrl + file[i] %>" target="_blank">
+										<p><i class="iconfont">&#xe60a;</i></p>
+										<%= file[i] %>
+									</a>
+								</li>
+							<%} else if(suf == "swf"){ %>
+								<li class="suffix-swf">
+									<a href="<%= linkUrl + file[i] %>" target="_blank">
+										<p><i class="iconfont">&#xe60b;</i></p>
+										<%= file[i] %>
+									</a>
+								</li>
+							<%} else {%>
+								<li class="suffix-other">
+									<a href="<%= linkUrl + file[i] %>" target="_blank">
+										<p><i class="iconfont">&#xe60f;</i></p>
+										<%= file[i] %>
+									</a>
+								</li>
+							<%}%>
+						<% } %>
+					</ul>
+					<% } %>
+					<!-- 图片文件 -->
+					<% if(imgFile.length > 0){ %>
+					<ul class="img-file clear">
+						<h3 class="class-title"><i class="iconfont">&#xe612;</i>图片</h3>
+						<% for(var i=0;i<imgFile.length;i++) { %>
+							<li>
+								<a href="<%= linkUrl + imgFile[i] %>" target="_blank" class="pic"><img src="<%= linkUrl + imgFile[i] %>" alt=""></a>
+								<%= imgFile[i] %>
+							</li>
+						<%}%>
+					</ul>
+					<% } %>
+				</div>
+				<% } %>
+				<!-- 空状态处理 -->
+				<% if(data["filenames"].length < 1){ %>
+				<div class="file-empty">
+					该目录下没有找到文件！
+				</div>
+				<% } %>
+			</div>
+		</div>
+		<div class="header">
+			<h3 data-path="<%= data['projectPath']%>"></h3>
+			<div class="updata"><span></span><a id="updataSvn" href="javascript:;" title="点击更新SVN"><i class="iconfont">&#xe617;</i></a></div>
+			<div class="svn-msg"><p>fdfsff</p></div>
+		</div>
+	</div>
+	
+</body>
+</html>
+<script type="text/javascript" src="/javascripts/jquery.min.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.qrcode.min.js"></script>
+<script type="text/javascript" src="/javascripts/clipboard.min.js"></script>
+<script type="text/javascript" src="/javascripts/show.js"></script>

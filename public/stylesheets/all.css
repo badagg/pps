@@ -1,0 +1,97 @@
+body{
+	background: #EAEBEC;
+}
+.pps-header{
+	/*height: 30px;*/
+	padding: 3px 20px;
+	background: #fff;
+	box-shadow: 0 0 5px rgba(0,0,0,.2);
+}
+.pps-header h2{
+	font-size: 36px;
+	color: #444;
+}
+.pps-header h2 span{
+	font-size: 12px;
+	font-weight: normal;
+	color: #999;
+}
+.pps-header .search{
+	
+}
+.pps-header .search input{
+	padding: 5px 5px 5px 25px;
+	outline: none;
+	margin-top: 12px;
+	width: 100px;
+	transition: width .3s ease-out;
+	border: 1px solid #ccc;
+	background: url(../images/icon-search.png) no-repeat 6px;
+	border-radius: 4px;
+}
+.pps-header .search input:focus{
+	width: 130px;
+}
+
+.projects{
+	padding: 20px;
+}
+.projects li{
+	width: 128px;
+	height: 100px;
+	/*background: #7fd5f8;*/
+	margin: 24px;
+	float: left;
+	border-radius: 8px;
+	text-align: center;
+	background: url(../images/icon-folder.png);
+	line-height: 100px;
+}
+.projects li a{
+	color: #006490;
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	width: 100%;
+	height: 100px;
+	transition: color .3s;
+}
+.projects li a:hover{
+	color:#000;
+}
+.empty{
+	text-align: center;
+	margin: 50px;
+	display: none;
+	color: #bbb;
+}
+.empty span{
+	color: #999;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
